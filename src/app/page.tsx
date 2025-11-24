@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion, Reorder } from 'framer-motion';
+import { DigitalClock } from '@/components/digital-clock';
 
 const initialEvents: Omit<Event, 'id'>[] = [
   {
@@ -84,6 +85,7 @@ export default function Home() {
             <CalendarIcon className="h-7 w-7 text-primary" />
             <h1 className="text-2xl font-bold text-foreground font-headline">DayFlow</h1>
           </div>
+          <DigitalClock />
         </div>
       </header>
       <main className="flex-1 overflow-auto">
