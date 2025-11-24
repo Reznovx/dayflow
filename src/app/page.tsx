@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { format, isSameDay, startOfToday } from 'date-fns';
 import { Bell, Calendar as CalendarIcon, Clock, GripVertical } from 'lucide-react';
 import type { Event } from '@/lib/types';
@@ -12,33 +12,37 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion, Reorder } from 'framer-motion';
 
-const initialEvents: Event[] = [
+const initialEvents: Omit<Event, 'id'>[] = [
   {
-    id: '1',
     title: 'Team Meeting',
-    date: new Date(),
+    date: new Date('2024-08-15T10:00:00'),
     completed: false,
     reminder: true,
   },
   {
-    id: '2',
     title: 'Design Review',
-    date: new Date(new Date().setDate(new Date().getDate() + 2)),
+    date: new Date('2024-08-17T14:30:00'),
     completed: false,
     reminder: true,
   },
   {
-    id: '3',
     title: 'Doctor Appointment',
-    date: new Date(),
+    date: new Date('2024-08-15T11:00:00'),
     completed: true,
     reminder: false,
   },
 ];
 
 export default function Home() {
-  const [events, setEvents] = useState<Event[]>(initialEvents);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [isClient, setIsClient] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(startOfToday());
+
+  useEffect(() => {
+    setIsClient(true);
+    setEvents(initialEvents.map(e => ({...e, id: crypto.randomUUID()})));
+  }, []);
+
 
   const addEvent = (newEventData: Omit<Event, 'id' | 'completed'>) => {
     const newEvent: Event = {
@@ -67,6 +71,10 @@ export default function Home() {
   }
 
   const daysWithEvents = useMemo(() => events.map((event) => event.date), [events]);
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <div className="flex h-full flex-col bg-background text-foreground">
