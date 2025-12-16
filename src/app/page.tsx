@@ -92,7 +92,7 @@ export default function Home() {
         <div className="container mx-auto grid h-full grid-cols-1 gap-8 p-4 md:grid-cols-3 md:p-6 lg:gap-12">
           <div className="flex flex-col gap-6 md:col-span-1">
             <Card className="shadow-md">
-              <CardContent className="p-2">
+              <CardContent className="p-0">
                 <Calendar
                   mode="single"
                   selected={selectedDate}
